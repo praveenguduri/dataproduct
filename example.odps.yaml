@@ -1,0 +1,120 @@
+
+# Fundamentals
+name: my data product
+id: fbe8d147-28db-4f1d-bedf-a3fe9f458427
+kind: DataProduct
+apiVersion: 1.0.0
+status: draft
+
+domain: seller
+tenant: VRBO
+
+description:
+  purpose: Views built on top of the seller tables.
+  limitations: null
+  usage: null
+
+# Support at the artifact level
+support:
+  - channel: channel-name-or-identifier 
+    url: https://expediagroup.enterprise.slack.com/archives/C07UMP8Q8EL
+  - channel: channel-name-or-identifier 
+    url: mailto:dataproduct-ann@expediagroup.com
+  
+# Team at the artifact level
+team:
+  - username: daustin
+    role: Owner
+    comment: Keeper of the grail
+    name: David Austin
+    dateIn: 2022-10-01
+  
+# Superseeds what is defined in contract
+roles:
+  - role: dataproductartifact_consumer
+    access: read
+    firstLevelApprovers: Reporting Manager
+    secondLevelApprovers: 'mandolorian'
+    
+# Metadata endpoints
+endpoints:
+  - endpoint: Dictionary update
+    content: dictionary # list of categories TBD
+    type: topic
+    name: tpc-dict-update
+  - endpoint: Dictionary update
+    content: dictionary
+    type: rest
+    url: https://${product-name}.dp.expedia.biz
+
+# Tags at the DP level
+tags: null
+
+# Custom properties at the DP level
+customProperties:
+  - property: somePropertyName
+    value: property.value
+
+# Artifacts
+artifacts:
+  # Details about the artifact
+- artifactId: artifact id
+  name: my artifact Name
+  type: table
+
+  # Tags for the artifact
+  tags: null
+
+  # Custom properties at the artifact level
+  customProperties:
+    - property: ruleAtTheArtifactLevel
+      value: val1
+    - property: somePropertyName
+      value: property.value
+
+  # List of version for the artifact
+  versions:
+  - version: 1.0.0
+    in:
+    - contractId: 560525a6-0bd3-4aff-905f-39589c8c838e
+      version: 1.2.0
+    - contractId: 341b02d1-5e52-4186-a20e-74ffc31997d2
+      version: 1.0.0
+    out:
+    - contractId: af12347d-b730-48e5-a369-33a2c70fd95b
+      version: 1.0.0
+    sbom:
+      - type: "pipeline"
+        implementation: "airflow"
+        name: "loyalty_profile_refresh"
+        version: "1.0.0"
+        repository: "github.com/eginternal/loyalty"
+        path: "/dags/loyalty_profile_refresh.py"
+        schedule: "*/15 * * * *"  # Every 15 minutes
+        description: "Pipeline to refresh loyalty profile snapshots"
+        trigger: 'scheduler' # Default is 'event'
+        tags: 
+        - 'batch'
+      - type:  "jobs"
+        implementation: "spark"
+        name: "profile_snapshot_processor"
+        version: "1.0.0"
+        repository: "github.com/eginternal/loyalty"
+        path: "/jobs/profile_snapshot.py"
+    tags: v1.0.0
+
+  - version: 2.0.1
+    in:
+    - contractId: 560525a6-0bd3-4aff-905f-39589c8c838e
+      version: 1.2.0
+    - contractId: 341b02d1-5e52-4186-a20e-74ffc31997d2
+      version: 1.0.1
+    out:
+    - contractId: af12347d-b730-48e5-a369-33a2c70fd95b
+      version: 2.0.0
+
+    tags: v2.0.0
+
+    customProperties:
+      - property: ruleAtTheVersionLevel
+        value: val1
